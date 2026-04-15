@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/vs-code-icon-theme.json",
+  "iconDefinitions": {
+    "_scenario": {
+      "iconPath": "./scenario-icon.svg"
+    },
+    "_fragment": {
+      "iconPath": "./fragment-icon.svg"
+    }
+  },
+  "fileExtensions": {
+    "scenario": "_scenario",
+    "fragment": "_fragment"
+  }
+}

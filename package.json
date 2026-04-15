@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "publisher": "berrycrush",
   "license": "Apache-2.0",
+  "icon": "resources/berrycrush.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/ktakashi/berrycrush"
@@ -41,6 +42,13 @@
         "language": "berrycrush",
         "scopeName": "source.berrycrush",
         "path": "./syntaxes/berrycrush.tmLanguage.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "berrycrush-icons",
+        "label": "BerryCrush File Icons",
+        "path": "./resources/icons/icon-theme.json"
       }
     ],
     "configuration": {
