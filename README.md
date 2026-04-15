@@ -70,6 +70,23 @@ Formatting rules:
 - **Table alignment** - Columns aligned with pipes, numbers right-aligned, text left-aligned
 - **Triple-quoted blocks** - Content inside `"""` preserved as-is
 
+## Keyboard Shortcuts
+
+| Action | Windows/Linux | macOS |
+|--------|--------------|-------|
+| **Editing** | | |
+| Toggle Line Comment | `Ctrl+/` | `Cmd+/` |
+| Format Document | `Shift+Alt+F` | `Shift+Option+F` |
+| Format Selection | `Ctrl+K Ctrl+F` | `Cmd+K Cmd+F` |
+| **Navigation** | | |
+| Go to Definition | `F12` or `Ctrl+Click` | `F12` or `Cmd+Click` |
+| Peek Definition | `Alt+F12` | `Option+F12` |
+| Find All References | `Shift+F12` | `Shift+F12` |
+| Go to Symbol | `Ctrl+Shift+O` | `Cmd+Shift+O` |
+| **Completion** | | |
+| Trigger Suggestions | `Ctrl+Space` | `Ctrl+Space` |
+| Accept Suggestion | `Tab` or `Enter` | `Tab` or `Enter` |
+
 ## Installation
 
 ### From VSIX (Local Install)
