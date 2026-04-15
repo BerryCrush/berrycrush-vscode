@@ -1,5 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/vs-code-icon-theme.json",
+  "inherits": "vs-seti",
   "iconDefinitions": {
     "_scenario": {
       "iconPath": "./scenario-icon.svg"

@@ -71,6 +71,18 @@
           "type": "string",
           "default": "src/test/resources",
           "description": "Path to search for fragment files"
+        },
+        "berrycrush.formatting.indentSize": {
+          "type": "number",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 8,
+          "description": "Number of spaces per indentation level"
+        },
+        "berrycrush.formatting.alignTables": {
+          "type": "boolean",
+          "default": true,
+          "description": "Align columns in examples tables"
         }
       }
     }

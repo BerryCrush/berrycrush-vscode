@@ -6,6 +6,7 @@ import { ScenarioHoverProvider } from './hover-provider';
 import { ScenarioDocumentLinkProvider } from './document-link-provider';
 import { ScenarioReferenceProvider } from './reference-provider';
 import { FragmentProvider } from './fragment-provider';
+import { ScenarioFormattingProvider } from './formatting-provider';
 
 let openApiProvider: OpenApiProvider;
 let fragmentProvider: FragmentProvider;
@@ -56,6 +57,22 @@ export function activate(context: vscode.ExtensionContext) {
     const referenceProvider = new ScenarioReferenceProvider(fragmentProvider);
     context.subscriptions.push(
         vscode.languages.registerReferenceProvider('berrycrush', referenceProvider)
+    );
+
+    // Register formatting providers
+    const formattingProvider = new ScenarioFormattingProvider();
+    context.subscriptions.push(
+        vscode.languages.registerDocumentFormattingEditProvider('berrycrush', formattingProvider)
+    );
+    context.subscriptions.push(
+        vscode.languages.registerDocumentRangeFormattingEditProvider('berrycrush', formattingProvider)
+    );
+    context.subscriptions.push(
+        vscode.languages.registerOnTypeFormattingEditProvider(
+            'berrycrush',
+            formattingProvider,
+            '\n' // Trigger on Enter
+        )
     );
 
     // Watch for OpenAPI spec changes

@@ -53,6 +53,23 @@ Hover over elements to see:
 - **Fragment preview** - Steps defined in the fragment
 - **Keyword documentation** - Usage examples for keywords and operators
 
+### Document Formatting
+
+Format your scenario and fragment files with:
+- **Format Document** - `Shift+Alt+F` (or `Shift+Option+F` on macOS)
+- **Format Selection** - Select text and use `Ctrl+K Ctrl+F` (or `Cmd+K Cmd+F`)
+- **Format on Type** - Automatically format after typing `:` on keywords
+
+Formatting rules:
+- **Root-level keywords** (`feature`, `scenario`, standalone `given`/`when`/`then`) - no indent
+- **Scenario inside feature** - 2 space indent  
+- **Background inside feature** - 2 space indent
+- **Step keywords** (`given`, `when`, `then`, `and`, `but`) - 2 space indent from parent
+- **Directives** (`call`, `assert`, `extract`, `body`, `include`, etc.) - 2 space indent from step
+- **Conditional blocks** (`if`, `else if`, `else`) - same level as directives, contents +2 indent
+- **Table alignment** - Columns aligned with pipes, numbers right-aligned, text left-aligned
+- **Triple-quoted blocks** - Content inside `"""` preserved as-is
+
 ## Installation
 
 ### From VSIX (Local Install)
@@ -105,7 +122,11 @@ Configure the extension in VS Code settings:
   ],
   
   // Path to search for fragment files
-  "berrycrush.fragmentsPath": "src/test/resources"
+  "berrycrush.fragmentsPath": "src/test/resources",
+  
+  // Formatting options
+  "berrycrush.formatting.indentSize": 2,      // Spaces per indent level
+  "berrycrush.formatting.alignTables": true   // Align table columns
 }
 ```
 
