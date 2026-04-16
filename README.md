@@ -46,6 +46,22 @@ Navigate directly to definitions with precise positioning:
 Find all usages of:
 - **Fragments** - Right-click on a fragment definition or usage to find all `include` statements
 
+### Document Outline
+
+View hierarchical structure in VS Code's Outline panel (`Ctrl+Shift+O` / `Cmd+Shift+O`):
+- **Features** - Displayed as top-level Class symbols
+- **Scenarios/Outlines** - Shown under features as Method symbols
+- **Background** - Constructor symbol under feature
+- **Fragments** - Function symbols at top level
+- **Steps** - given/when/then/and/but as Field symbols under scenarios
+- **Examples** - Array symbol under outlines
+- **Parameters** - Struct symbol in scenarios
+
+The outline enables:
+- Quick navigation by clicking items
+- Breadcrumb navigation showing current location
+- Go to Symbol (`Ctrl+Shift+O` / `Cmd+Shift+O`) with type-ahead filtering
+
 ### Hover Information
 
 Hover over elements to see:

@@ -8,6 +8,7 @@ import { ScenarioReferenceProvider } from './reference-provider';
 import { FragmentProvider } from './fragment-provider';
 import { ScenarioFormattingProvider } from './formatting-provider';
 import { ScenarioFoldingRangeProvider } from './folding-provider';
+import { ScenarioDocumentSymbolProvider } from './symbol-provider';
 
 let openApiProvider: OpenApiProvider;
 let fragmentProvider: FragmentProvider;
@@ -80,6 +81,12 @@ export function activate(context: vscode.ExtensionContext) {
     const foldingProvider = new ScenarioFoldingRangeProvider();
     context.subscriptions.push(
         vscode.languages.registerFoldingRangeProvider('berrycrush', foldingProvider)
+    );
+
+    // Register document symbol provider (Outline panel)
+    const symbolProvider = new ScenarioDocumentSymbolProvider();
+    context.subscriptions.push(
+        vscode.languages.registerDocumentSymbolProvider('berrycrush', symbolProvider)
     );
 
     // Watch for OpenAPI spec changes
