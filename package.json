@@ -44,6 +44,12 @@
         "path": "./syntaxes/berrycrush.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "berrycrush",
+        "path": "./snippets/berrycrush.code-snippets"
+      }
+    ],
     "iconThemes": [
       {
         "id": "berrycrush-icons",

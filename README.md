@@ -105,6 +105,51 @@ Use the fold icons in the gutter, or keyboard shortcuts:
 - **Fold All** - `Ctrl+K Ctrl+0` (`Cmd+K Cmd+0`)
 - **Unfold All** - `Ctrl+K Ctrl+J` (`Cmd+K Cmd+J`)
 
+### Code Snippets
+
+Type a prefix and press `Tab` or select from suggestions (`Ctrl+Space`):
+
+| Prefix | Description |
+|--------|-------------|
+| **Structure** | |
+| `feature` | Feature with background and scenario |
+| `feature-simple` | Simple feature with one scenario |
+| `scenario` | Complete scenario (given/when/then) |
+| `outline` | Scenario outline with examples table |
+| `background` | Background block |
+| `fragment` | Fragment template |
+| **Steps** | |
+| `given` / `given:` | Given step |
+| `when` / `when:` | When step |
+| `then` / `then:` | Then step |
+| `and` | And step |
+| `but` | But step |
+| **API Calls** | |
+| `call` | API call with parameter |
+| `call-body` | Call with structured body |
+| `call-json` | Call with inline JSON body |
+| `call-body-triple` | Call with triple-quoted body |
+| `call-using` | Multi-spec call |
+| **Assertions** | |
+| `assert-status` | Assert HTTP status (with choices) |
+| `assert-json` | Assert JSON path value |
+| `assert-exists` | Assert JSON path exists |
+| `assert-notempty` | Assert not empty |
+| `assert-header` | Assert response header |
+| `assert-schema` | Assert OpenAPI schema |
+| `assert-time` | Assert response time |
+| **Other** | |
+| `extract` | Extract value to variable |
+| `extract-header` | Extract header to variable |
+| `include` | Include fragment |
+| `if` / `if-else` | Conditional blocks |
+| `if-json` | JSON path conditional |
+| `fail` | Fail with message |
+| `auto` | Auto-generated test block |
+| `parameters` | Parameters block |
+| `examples` | Examples table |
+| `@` | Add tag (with choices) |
+
 ## Keyboard Shortcuts
 
 | Action | Windows/Linux | macOS |

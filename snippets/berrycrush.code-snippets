@@ -1,0 +1,364 @@
+{
+  "Feature with Background": {
+    "prefix": "feature",
+    "body": [
+      "@${1:tag} feature: ${2:Feature Name}",
+      "  background:",
+      "    given ${3:common precondition}",
+      "      ${4:# setup actions}",
+      "",
+      "  scenario: ${5:Scenario Name}",
+      "    when ${6:action}",
+      "      ${7:# actions}",
+      "    then ${8:expected result}",
+      "      ${9:# assertions}",
+      "$0"
+    ],
+    "description": "Feature block with background and scenario template"
+  },
+  "Feature Simple": {
+    "prefix": "feature-simple",
+    "body": [
+      "feature: ${1:Feature Name}",
+      "  scenario: ${2:Scenario Name}",
+      "    given ${3:precondition}",
+      "      $4",
+      "    when ${5:action}",
+      "      $6",
+      "    then ${7:expected result}",
+      "      $8",
+      "$0"
+    ],
+    "description": "Simple feature with one scenario"
+  },
+  "Scenario": {
+    "prefix": "scenario",
+    "body": [
+      "scenario: ${1:Scenario Name}",
+      "  given ${2:precondition}",
+      "    ${3:# setup}",
+      "  when ${4:action}",
+      "    ${5:# actions}",
+      "  then ${6:expected result}",
+      "    ${7:# assertions}",
+      "$0"
+    ],
+    "description": "Complete scenario with given/when/then"
+  },
+  "Scenario Outline": {
+    "prefix": "outline",
+    "body": [
+      "outline: ${1:Outline Name}",
+      "  given ${2:precondition with <param>}",
+      "    $3",
+      "  when ${4:action with <param>}",
+      "    $5",
+      "  then ${6:expected result}",
+      "    $7",
+      "  examples:",
+      "    | ${8:param} |",
+      "    | ${9:value1} |",
+      "    | ${10:value2} |",
+      "$0"
+    ],
+    "description": "Scenario outline with examples table"
+  },
+  "Background": {
+    "prefix": "background",
+    "body": [
+      "background:",
+      "  given ${1:common precondition}",
+      "    ${2:# setup actions}",
+      "$0"
+    ],
+    "description": "Background block for shared setup"
+  },
+  "Fragment": {
+    "prefix": "fragment",
+    "body": [
+      "fragment: ${1:fragment_name}",
+      "  given ${2:step description}",
+      "    ${3:# actions}",
+      "$0"
+    ],
+    "description": "Reusable fragment template"
+  },
+  "Given Step": {
+    "prefix": "given",
+    "body": [
+      "given ${1:precondition}",
+      "  ${2:# actions}",
+      "$0"
+    ],
+    "description": "Given step with placeholder"
+  },
+  "Given Step (colon)": {
+    "prefix": "given:",
+    "body": [
+      "given: ${1:precondition}",
+      "  ${2:# actions}",
+      "$0"
+    ],
+    "description": "Given step with colon syntax"
+  },
+  "When Step": {
+    "prefix": "when",
+    "body": [
+      "when ${1:action}",
+      "  ${2:# actions}",
+      "$0"
+    ],
+    "description": "When step with placeholder"
+  },
+  "When Step (colon)": {
+    "prefix": "when:",
+    "body": [
+      "when: ${1:action}",
+      "  ${2:# actions}",
+      "$0"
+    ],
+    "description": "When step with colon syntax"
+  },
+  "Then Step": {
+    "prefix": "then",
+    "body": [
+      "then ${1:expected result}",
+      "  ${2:# assertions}",
+      "$0"
+    ],
+    "description": "Then step with placeholder"
+  },
+  "Then Step (colon)": {
+    "prefix": "then:",
+    "body": [
+      "then: ${1:expected result}",
+      "  ${2:# assertions}",
+      "$0"
+    ],
+    "description": "Then step with colon syntax"
+  },
+  "And Step": {
+    "prefix": "and",
+    "body": [
+      "and ${1:additional condition}",
+      "  ${2:# actions}",
+      "$0"
+    ],
+    "description": "And step (additional condition)"
+  },
+  "But Step": {
+    "prefix": "but",
+    "body": [
+      "but ${1:contrasting condition}",
+      "  ${2:# actions}",
+      "$0"
+    ],
+    "description": "But step (contrasting condition)"
+  },
+  "API Call": {
+    "prefix": "call",
+    "body": [
+      "call ^${1:operationId}",
+      "  ${2:paramName}: ${3:paramValue}",
+      "$0"
+    ],
+    "description": "API call with operation ID and parameter"
+  },
+  "API Call with Body": {
+    "prefix": "call-body",
+    "body": [
+      "call ^${1:operationId}",
+      "  body:",
+      "    ${2:fieldName}: ${3:fieldValue}",
+      "$0"
+    ],
+    "description": "API call with structured body"
+  },
+  "API Call with JSON Body": {
+    "prefix": "call-json",
+    "body": [
+      "call ^${1:operationId}",
+      "  body: {\"${2:field}\": \"${3:value}\"}",
+      "$0"
+    ],
+    "description": "API call with inline JSON body"
+  },
+  "API Call with Triple Quote Body": {
+    "prefix": "call-body-triple",
+    "body": [
+      "call ^${1:operationId}",
+      "  body:",
+      "    \"\"\"",
+      "    {",
+      "      \"${2:field}\": \"${3:value}\"",
+      "    }",
+      "    \"\"\"",
+      "$0"
+    ],
+    "description": "API call with triple-quoted JSON body"
+  },
+  "API Call with Multi-Spec": {
+    "prefix": "call-using",
+    "body": [
+      "call using ${1:specName} ^${2:operationId}",
+      "  ${3:paramName}: ${4:paramValue}",
+      "$0"
+    ],
+    "description": "API call with specific spec (multi-spec project)"
+  },
+  "Assert Status": {
+    "prefix": "assert-status",
+    "body": [
+      "assert status ${1|200,201,204,400,401,403,404,500,2xx,4xx,5xx|}",
+      "$0"
+    ],
+    "description": "Assert HTTP status code"
+  },
+  "Assert JSON Path": {
+    "prefix": "assert-json",
+    "body": [
+      "assert \\$.${1:path} ${2|equals,notEquals,contains,notContains,exists,notExists,notEmpty,hasSize,greaterThan,lessThan,matches|} ${3:expectedValue}",
+      "$0"
+    ],
+    "description": "Assert JSON path value"
+  },
+  "Assert JSON Exists": {
+    "prefix": "assert-exists",
+    "body": [
+      "assert \\$.${1:path} exists",
+      "$0"
+    ],
+    "description": "Assert JSON path exists"
+  },
+  "Assert JSON NotEmpty": {
+    "prefix": "assert-notempty",
+    "body": [
+      "assert \\$.${1:path} notEmpty",
+      "$0"
+    ],
+    "description": "Assert JSON path is not empty"
+  },
+  "Assert Header": {
+    "prefix": "assert-header",
+    "body": [
+      "assert header ${1:Content-Type} ${2|=,equals,contains,exists|} ${3:application/json}",
+      "$0"
+    ],
+    "description": "Assert response header"
+  },
+  "Assert Schema": {
+    "prefix": "assert-schema",
+    "body": [
+      "assert schema",
+      "$0"
+    ],
+    "description": "Assert response matches OpenAPI schema"
+  },
+  "Assert Response Time": {
+    "prefix": "assert-time",
+    "body": [
+      "assert responseTime ${1:1000}",
+      "$0"
+    ],
+    "description": "Assert response time in milliseconds"
+  },
+  "Extract Variable": {
+    "prefix": "extract",
+    "body": [
+      "extract \\$.${1:path} => ${2:variableName}",
+      "$0"
+    ],
+    "description": "Extract value from response to variable"
+  },
+  "Extract Header": {
+    "prefix": "extract-header",
+    "body": [
+      "extract header ${1:X-Request-Id} => ${2:variableName}",
+      "$0"
+    ],
+    "description": "Extract response header to variable"
+  },
+  "Include Fragment": {
+    "prefix": "include",
+    "body": [
+      "include ${1:fragmentName}",
+      "$0"
+    ],
+    "description": "Include a fragment"
+  },
+  "If Conditional": {
+    "prefix": "if",
+    "body": [
+      "if status ${1|200,201,204,400,404,2xx,4xx|}",
+      "  ${2:# actions if true}",
+      "$0"
+    ],
+    "description": "Conditional if block"
+  },
+  "If-Else Conditional": {
+    "prefix": "if-else",
+    "body": [
+      "if status ${1|200,201,204,400,404,2xx,4xx|}",
+      "  ${2:# actions if true}",
+      "else",
+      "  ${3:# actions if false}",
+      "$0"
+    ],
+    "description": "Conditional if-else block"
+  },
+  "If JSON Path": {
+    "prefix": "if-json",
+    "body": [
+      "if \\$.${1:path} ${2|exists,notExists,equals,notEquals,contains,greaterThan,lessThan|} ${3:value}",
+      "  ${4:# actions if true}",
+      "$0"
+    ],
+    "description": "Conditional based on JSON path"
+  },
+  "Fail": {
+    "prefix": "fail",
+    "body": [
+      "fail \"${1:Error message}\"",
+      "$0"
+    ],
+    "description": "Fail with custom error message"
+  },
+  "Auto Test Block": {
+    "prefix": "auto",
+    "body": [
+      "scenario: ${1:Auto-generated tests for operationId}",
+      "  auto:",
+      "    operation: ^${2:operationId}",
+      "    ${3|generate: all,excludes: invalid-param|}",
+      "$0"
+    ],
+    "description": "Auto-generated test scenario"
+  },
+  "Parameters Block": {
+    "prefix": "parameters",
+    "body": [
+      "parameters:",
+      "  ${1:paramName}: ${2:paramValue}",
+      "$0"
+    ],
+    "description": "Parameters block for scenario"
+  },
+  "Examples Table": {
+    "prefix": "examples",
+    "body": [
+      "examples:",
+      "  | ${1:col1} | ${2:col2} |",
+      "  | ${3:val1} | ${4:val2} |",
+      "$0"
+    ],
+    "description": "Examples table for outline"
+  },
+  "Tag": {
+    "prefix": "@",
+    "body": [
+      "@${1|smoke,regression,api,integration,critical,wip,ignore|}",
+      "$0"
+    ],
+    "description": "Add a tag"
+  }
+}
