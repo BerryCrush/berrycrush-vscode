@@ -9,6 +9,10 @@ import { FragmentProvider } from './fragment-provider';
 import { ScenarioFormattingProvider } from './formatting-provider';
 import { ScenarioFoldingRangeProvider } from './folding-provider';
 import { ScenarioDocumentSymbolProvider } from './symbol-provider';
+// TODO: Diagnostics on hold until custom step detection is implemented
+// See: .copilot/vscode-custom-steps/requirements.md
+// import { ScenarioDiagnosticsProvider } from './diagnostics-provider';
+// import { ScenarioCodeActionProvider } from './code-action-provider';
 
 let openApiProvider: OpenApiProvider;
 let fragmentProvider: FragmentProvider;
