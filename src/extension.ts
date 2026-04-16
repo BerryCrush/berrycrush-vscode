@@ -7,6 +7,7 @@ import { ScenarioDocumentLinkProvider } from './document-link-provider';
 import { ScenarioReferenceProvider } from './reference-provider';
 import { FragmentProvider } from './fragment-provider';
 import { ScenarioFormattingProvider } from './formatting-provider';
+import { ScenarioFoldingRangeProvider } from './folding-provider';
 
 let openApiProvider: OpenApiProvider;
 let fragmentProvider: FragmentProvider;
@@ -73,6 +74,12 @@ export function activate(context: vscode.ExtensionContext) {
             formattingProvider,
             '\n' // Trigger on Enter
         )
+    );
+
+    // Register folding provider
+    const foldingProvider = new ScenarioFoldingRangeProvider();
+    context.subscriptions.push(
+        vscode.languages.registerFoldingRangeProvider('berrycrush', foldingProvider)
     );
 
     // Watch for OpenAPI spec changes

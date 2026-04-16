@@ -70,6 +70,25 @@ Formatting rules:
 - **Table alignment** - Columns aligned with pipes, numbers right-aligned, text left-aligned
 - **Triple-quoted blocks** - Content inside `"""` preserved as-is
 
+### Code Folding
+
+Collapse and expand logical sections of your scenario files:
+- **Features** - Fold entire feature including all scenarios and background
+- **Scenarios/Outlines** - Fold individual test scenarios
+- **Fragments** - Fold fragment definitions
+- **Background** - Fold background sections
+- **Steps** - Fold `given`, `when`, `then`, `and`, `but` with their contents
+- **Parameters/Examples** - Fold parameter and examples blocks
+- **Conditional Blocks** - Fold `if`/`else if`/`else` blocks individually
+- **Triple-quoted Bodies** - Fold multi-line JSON/text bodies
+- **Comment Blocks** - Fold consecutive comment lines
+
+Use the fold icons in the gutter, or keyboard shortcuts:
+- **Fold** - `Ctrl+Shift+[` (`Cmd+Option+[` on macOS)
+- **Unfold** - `Ctrl+Shift+]` (`Cmd+Option+]` on macOS)
+- **Fold All** - `Ctrl+K Ctrl+0` (`Cmd+K Cmd+0`)
+- **Unfold All** - `Ctrl+K Ctrl+J` (`Cmd+K Cmd+J`)
+
 ## Keyboard Shortcuts
 
 | Action | Windows/Linux | macOS |
@@ -86,6 +105,11 @@ Formatting rules:
 | **Completion** | | |
 | Trigger Suggestions | `Ctrl+Space` | `Ctrl+Space` |
 | Accept Suggestion | `Tab` or `Enter` | `Tab` or `Enter` |
+| **Folding** | | |
+| Fold | `Ctrl+Shift+[` | `Cmd+Option+[` |
+| Unfold | `Ctrl+Shift+]` | `Cmd+Option+]` |
+| Fold All | `Ctrl+K Ctrl+0` | `Cmd+K Cmd+0` |
+| Unfold All | `Ctrl+K Ctrl+J` | `Cmd+K Cmd+J` |
 
 ## Installation
 
