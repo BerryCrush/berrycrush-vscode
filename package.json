@@ -107,7 +107,21 @@
           "description": "Align columns in examples tables"
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "berrycrush.refreshOpenApi",
+        "title": "BerryCrush: Refresh OpenAPI"
+      },
+      {
+        "command": "berrycrush.refreshFragments",
+        "title": "BerryCrush: Refresh Fragments"
+      },
+      {
+        "command": "berrycrush.refreshSteps",
+        "title": "BerryCrush: Refresh Custom Steps"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

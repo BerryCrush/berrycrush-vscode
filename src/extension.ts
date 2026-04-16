@@ -9,9 +9,11 @@ import { FragmentProvider } from './fragment-provider';
 import { ScenarioFormattingProvider } from './formatting-provider';
 import { ScenarioFoldingRangeProvider } from './folding-provider';
 import { ScenarioDocumentSymbolProvider } from './symbol-provider';
+import { StepProvider } from './step-provider';
 
 let openApiProvider: OpenApiProvider;
 let fragmentProvider: FragmentProvider;
+let stepProvider: StepProvider;
 let outputChannel: vscode.OutputChannel;
 
 // Document selector for both scenario and fragment languages
@@ -28,9 +30,10 @@ export function activate(context: vscode.ExtensionContext) {
     // Initialize providers
     openApiProvider = new OpenApiProvider();
     fragmentProvider = new FragmentProvider();
+    stepProvider = new StepProvider();
 
     // Register completion provider
-    const completionProvider = new ScenarioCompletionProvider(openApiProvider, fragmentProvider);
+    const completionProvider = new ScenarioCompletionProvider(openApiProvider, fragmentProvider, stepProvider);
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
             BERRYCRUSH_SELECTOR,
@@ -44,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Register definition provider (Go to Definition / Ctrl+Click)
-    const definitionProvider = new ScenarioDefinitionProvider(openApiProvider, fragmentProvider);
+    const definitionProvider = new ScenarioDefinitionProvider(openApiProvider, fragmentProvider, stepProvider);
     context.subscriptions.push(
         vscode.languages.registerDefinitionProvider(BERRYCRUSH_SELECTOR, definitionProvider)
     );
@@ -56,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Register hover provider
-    const hoverProvider = new ScenarioHoverProvider(openApiProvider, fragmentProvider);
+    const hoverProvider = new ScenarioHoverProvider(openApiProvider, fragmentProvider, stepProvider);
     context.subscriptions.push(
         vscode.languages.registerHoverProvider(BERRYCRUSH_SELECTOR, hoverProvider)
     );
@@ -109,6 +112,13 @@ export function activate(context: vscode.ExtensionContext) {
     fragmentWatcher.onDidDelete(() => fragmentProvider.refresh());
     context.subscriptions.push(fragmentWatcher);
 
+    // Watch for Kotlin/Java source file changes (for custom step discovery)
+    const stepWatcher = vscode.workspace.createFileSystemWatcher('**/*.{kt,java}');
+    stepWatcher.onDidChange(() => stepProvider.refresh());
+    stepWatcher.onDidCreate(() => stepProvider.refresh());
+    stepWatcher.onDidDelete(() => stepProvider.refresh());
+    context.subscriptions.push(stepWatcher);
+
     // Initialize on startup
     openApiProvider.refresh().then(() => {
         const opCount = openApiProvider.getAllOperationIds().length;
@@ -127,6 +137,17 @@ export function activate(context: vscode.ExtensionContext) {
         outputChannel.appendLine(`ERROR loading fragments: ${err}`);
     });
 
+    stepProvider.refresh().then(() => {
+        const stepCount = stepProvider.getAllSteps().length;
+        const assertCount = stepProvider.getAllAssertions().length;
+        outputChannel.appendLine(`Loaded ${stepCount} custom steps, ${assertCount} assertions`);
+        if (stepCount > 0 || assertCount > 0) {
+            vscode.window.setStatusBarMessage(`BerryCrush: ${stepCount} steps, ${assertCount} assertions`, 3000);
+        }
+    }).catch((err) => {
+        outputChannel.appendLine(`ERROR loading steps: ${err}`);
+    });
+
     // Command to refresh OpenAPI spec manually
     context.subscriptions.push(
         vscode.commands.registerCommand('berrycrush.refreshOpenApi', () => {
@@ -142,8 +163,23 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.window.showInformationMessage('BerryCrush: Fragments refreshed');
         })
     );
+
+    // Command to refresh custom steps manually
+    context.subscriptions.push(
+        vscode.commands.registerCommand('berrycrush.refreshSteps', () => {
+            stepProvider.refresh();
+            vscode.window.showInformationMessage('BerryCrush: Custom steps refreshed');
+        })
+    );
 }
 
 export function deactivate() {
     // Cleanup if needed
+}
+
+/**
+ * Get the StepProvider instance for use by other modules
+ */
+export function getStepProvider(): StepProvider | undefined {
+    return stepProvider;
 }

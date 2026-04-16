@@ -137,7 +137,8 @@
         { "include": "#assert-jsonpath" },
         { "include": "#assert-body" },
         { "include": "#assert-schema" },
-        { "include": "#assert-responsetime" }
+        { "include": "#assert-responsetime" },
+        { "include": "#assert-custom" }
       ]
     },
     "assert-status": {
@@ -200,6 +201,20 @@
         "1": { "name": "keyword.other.assert.berrycrush" },
         "2": { "name": "support.type.assertion-type.berrycrush" },
         "3": { "name": "constant.numeric.berrycrush" }
+      }
+    },
+    "assert-custom": {
+      "comment": "Custom assertions defined via @Assertion annotation",
+      "match": "^\\s*(assert)\\s+(?!status|header|contains|not\\s+contains|schema|responseTime|\\$)(.+)$",
+      "captures": {
+        "1": { "name": "keyword.other.assert.berrycrush" },
+        "2": { 
+          "patterns": [
+            { "include": "#string-value" },
+            { "include": "#variable-interpolation" },
+            { "include": "#number" }
+          ]
+        }
       }
     },
     "extract-directive": {

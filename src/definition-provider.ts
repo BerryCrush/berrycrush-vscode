@@ -1,11 +1,13 @@
 import * as vscode from 'vscode';
 import { OpenApiProvider } from './openapi-provider';
 import { FragmentProvider } from './fragment-provider';
+import { StepProvider } from './step-provider';
 
 export class ScenarioDefinitionProvider implements vscode.DefinitionProvider {
     constructor(
         private openApiProvider: OpenApiProvider,
-        private fragmentProvider: FragmentProvider
+        private fragmentProvider: FragmentProvider,
+        private stepProvider?: StepProvider
     ) {}
 
     provideDefinition(
@@ -60,6 +62,50 @@ export class ScenarioDefinitionProvider implements vscode.DefinitionProvider {
             const variableMatch = this.getVariableAtPosition(document, position);
             if (variableMatch) {
                 return this.getVariableDefinition(document, variableMatch);
+            }
+        }
+
+        // Check for custom step/assertion text
+        if (this.stepProvider) {
+            const stepDefinition = this.getCustomStepDefinition(lineText);
+            if (stepDefinition) {
+                return stepDefinition;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Try to find a custom step definition that matches the line text
+     */
+    private getCustomStepDefinition(lineText: string): vscode.Location | null {
+        if (!this.stepProvider) {
+            return null;
+        }
+
+        // Check for step keyword followed by step text
+        const stepMatch = lineText.match(/^\s*(given|when|then|and|but)\s+(.+)$/i);
+        if (stepMatch) {
+            const stepText = stepMatch[2].trim();
+            const step = this.stepProvider.findMatchingStep(stepText);
+            if (step) {
+                this.scheduleRevealAtTop(step.location);
+                return step.location;
+            }
+        }
+
+        // Check for assertion keyword followed by assertion text
+        const assertMatch = lineText.match(/^\s*assert\s+(.+)$/i);
+        if (assertMatch) {
+            const assertText = assertMatch[1].trim();
+            // Skip built-in assertions
+            if (!assertText.match(/^(status|contains|not|schema|\$)/)) {
+                const assertion = this.stepProvider.findMatchingAssertion(assertText);
+                if (assertion) {
+                    this.scheduleRevealAtTop(assertion.location);
+                    return assertion.location;
+                }
             }
         }
 

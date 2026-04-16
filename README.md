@@ -67,7 +67,47 @@ The outline enables:
 Hover over elements to see:
 - **Operation details** - Method, path, parameters, request body, responses
 - **Fragment preview** - Steps defined in the fragment
+- **Custom step info** - Pattern, parameters, source location
 - **Keyword documentation** - Usage examples for keywords and operators
+
+### Custom Step Discovery
+
+The extension automatically discovers custom steps and assertions defined in your Kotlin or Java source files.
+
+**Supported Annotations:**
+- `@Step("pattern")` - Define a custom step
+- `@Step(pattern = "pattern")` - Java style with named parameter
+- `@Assertion("pattern")` - Define a custom assertion
+
+**Pattern Placeholders:**
+- `{string}` - Matches a quoted string (e.g., `"Fluffy"`)
+- `{int}` - Matches an integer (e.g., `42`)
+- `{word}` - Matches a single word (e.g., `available`)
+- `{float}` - Matches a decimal number (e.g., `19.99`)
+- `{any}` - Matches any text
+
+**Example Step Definition (Kotlin):**
+```kotlin
+@Step("I have a pet named {string} with status {string}")
+fun createPet(name: String, status: String) {
+    // ...
+}
+```
+
+**Usage in Scenario:**
+```berrycrush
+scenario: Test custom step
+  given I have a pet named "Fluffy" with status "available"
+```
+
+**Features:**
+- **Auto-completion** - After typing `given`, `when`, `then`, etc., custom steps appear in suggestions
+- **Go to Definition** - Ctrl+Click on a custom step to navigate to its implementation
+- **Hover Information** - See the step pattern, parameters, and source file
+- **Snippet Tabstops** - Completions include tabstops for placeholder values
+
+**Commands:**
+- **BerryCrush: Refresh Custom Steps** - Manually reload step definitions
 
 ### Document Formatting
 
@@ -243,6 +283,7 @@ If no OpenAPI paths are configured, the extension automatically searches for:
 
 - **BerryCrush: Refresh OpenAPI** - Reload OpenAPI specifications
 - **BerryCrush: Refresh Fragments** - Reload fragment files
+- **BerryCrush: Refresh Custom Steps** - Reload custom step definitions from source files
 
 ## Requirements
 

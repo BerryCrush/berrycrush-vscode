@@ -1,11 +1,13 @@
 import * as vscode from 'vscode';
 import { OpenApiProvider, OpenApiOperation } from './openapi-provider';
 import { FragmentProvider, Fragment } from './fragment-provider';
+import { StepProvider, StepDefinition } from './step-provider';
 
 export class ScenarioHoverProvider implements vscode.HoverProvider {
     constructor(
         private openApiProvider: OpenApiProvider,
-        private fragmentProvider: FragmentProvider
+        private fragmentProvider: FragmentProvider,
+        private stepProvider?: StepProvider
     ) {}
 
     provideHover(
@@ -42,6 +44,14 @@ export class ScenarioHoverProvider implements vscode.HoverProvider {
         const operatorHover = this.getOperatorHover(word, lineText);
         if (operatorHover) {
             return operatorHover;
+        }
+
+        // Check for custom step/assertion hover
+        if (this.stepProvider) {
+            const stepHover = this.getCustomStepHover(lineText);
+            if (stepHover) {
+                return stepHover;
+            }
         }
 
         return null;
@@ -197,5 +207,70 @@ export class ScenarioHoverProvider implements vscode.HoverProvider {
         }
 
         return null;
+    }
+
+    /**
+     * Get hover information for custom steps and assertions
+     */
+    private getCustomStepHover(lineText: string): vscode.Hover | null {
+        if (!this.stepProvider) {
+            return null;
+        }
+
+        // Check for step keyword followed by step text
+        const stepMatch = lineText.match(/^\s*(given|when|then|and|but)\s+(.+)$/i);
+        if (stepMatch) {
+            const stepText = stepMatch[2].trim();
+            const step = this.stepProvider.findMatchingStep(stepText);
+            if (step) {
+                return new vscode.Hover(new vscode.MarkdownString(this.formatStepHover(step)));
+            }
+        }
+
+        // Check for assertion keyword followed by assertion text
+        const assertMatch = lineText.match(/^\s*assert\s+(.+)$/i);
+        if (assertMatch) {
+            const assertText = assertMatch[1].trim();
+            // Skip built-in assertions
+            if (!assertText.match(/^(status|contains|not|schema|\$)/)) {
+                const assertion = this.stepProvider.findMatchingAssertion(assertText);
+                if (assertion) {
+                    return new vscode.Hover(new vscode.MarkdownString(this.formatStepHover(assertion)));
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Format step/assertion documentation for hover
+     */
+    private formatStepHover(step: StepDefinition): string {
+        const typeLabel = step.type === 'step' ? 'Custom Step' : 'Custom Assertion';
+        let content = `### ${typeLabel}\n\n`;
+        content += `**Pattern:** \`${step.pattern}\`\n\n`;
+
+        if (step.description) {
+            content += `${step.description}\n\n`;
+        }
+
+        if (step.parameters.length > 0) {
+            content += '**Parameters:**\n\n';
+            content += '| Name | Type |\n';
+            content += '|------|------|\n';
+            for (const param of step.parameters) {
+                content += `| \`${param.name}\` | ${param.type} |\n`;
+            }
+            content += '\n';
+        }
+
+        content += `**Method:** \`${step.methodName}\`\n\n`;
+        
+        // Get just the filename from path
+        const fileName = step.filePath.split(/[/\\]/).pop() || step.filePath;
+        content += `*Source: ${fileName}:${step.lineNumber + 1}*`;
+
+        return content;
     }
 }

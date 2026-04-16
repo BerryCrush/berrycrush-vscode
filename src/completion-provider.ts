@@ -1,11 +1,13 @@
 import * as vscode from 'vscode';
 import { OpenApiProvider, OpenApiOperation } from './openapi-provider';
 import { FragmentProvider, Fragment } from './fragment-provider';
+import { StepProvider, StepDefinition } from './step-provider';
 
 export class ScenarioCompletionProvider implements vscode.CompletionItemProvider {
     constructor(
         private openApiProvider: OpenApiProvider,
-        private fragmentProvider: FragmentProvider
+        private fragmentProvider: FragmentProvider,
+        private stepProvider?: StepProvider
     ) {}
 
     provideCompletionItems(
@@ -56,6 +58,26 @@ export class ScenarioCompletionProvider implements vscode.CompletionItemProvider
         // Assert operator completions
         if (linePrefix.match(/assert\s+\$[\w\.\[\]]+\s+$/)) {
             return this.getAssertOperatorCompletions();
+        }
+
+        // Custom step completions (after given/when/then text)
+        if (this.stepProvider) {
+            const customStepMatch = linePrefix.match(/^\s*(given|when|then|and|but)\s+(.*)$/i);
+            if (customStepMatch) {
+                const stepCompletions = this.getCustomStepCompletions(customStepMatch[2]);
+                if (stepCompletions.length > 0) {
+                    return stepCompletions;
+                }
+            }
+            
+            // Custom assertion completions (after assert keyword)
+            const assertMatch = linePrefix.match(/^\s*assert\s+(.*)$/i);
+            if (assertMatch && !assertMatch[1].startsWith('$') && !assertMatch[1].match(/^(status|contains|not|schema)/)) {
+                const assertCompletions = this.getCustomAssertionCompletions(assertMatch[1]);
+                if (assertCompletions.length > 0) {
+                    return assertCompletions;
+                }
+            }
         }
 
         // Parameter completions (for call parameters)
@@ -384,5 +406,135 @@ export class ScenarioCompletionProvider implements vscode.CompletionItemProvider
         const line = document.lineAt(position).text;
         const match = line.match(/^(\s*)/);
         return match ? match[1].length : 0;
+    }
+
+    /**
+     * Get completions for custom steps defined via @Step annotation
+     */
+    private getCustomStepCompletions(partialText: string): vscode.CompletionItem[] {
+        if (!this.stepProvider) {
+            return [];
+        }
+
+        const items: vscode.CompletionItem[] = [];
+        const steps = this.stepProvider.getAllSteps();
+        const lowerPartial = partialText.toLowerCase().trim();
+
+        for (const step of steps) {
+            // Filter by partial text if entered
+            if (lowerPartial && !step.pattern.toLowerCase().includes(lowerPartial)) {
+                continue;
+            }
+
+            const item = new vscode.CompletionItem(
+                step.pattern,
+                vscode.CompletionItemKind.Method
+            );
+
+            item.detail = `Custom step from ${this.getFileName(step.filePath)}`;
+            item.documentation = new vscode.MarkdownString(
+                this.formatStepDocs(step)
+            );
+
+            // Create snippet with tabstops for placeholders
+            item.insertText = new vscode.SnippetString(
+                this.patternToSnippet(step.pattern)
+            );
+
+            // Set sort text to prioritize exact matches
+            item.sortText = step.pattern.toLowerCase().startsWith(lowerPartial) ? '0' : '1';
+
+            items.push(item);
+        }
+
+        return items;
+    }
+
+    /**
+     * Get completions for custom assertions defined via @Assertion annotation
+     */
+    private getCustomAssertionCompletions(partialText: string): vscode.CompletionItem[] {
+        if (!this.stepProvider) {
+            return [];
+        }
+
+        const items: vscode.CompletionItem[] = [];
+        const assertions = this.stepProvider.getAllAssertions();
+        const lowerPartial = partialText.toLowerCase().trim();
+
+        for (const assertion of assertions) {
+            // Filter by partial text if entered
+            if (lowerPartial && !assertion.pattern.toLowerCase().includes(lowerPartial)) {
+                continue;
+            }
+
+            const item = new vscode.CompletionItem(
+                assertion.pattern,
+                vscode.CompletionItemKind.Event
+            );
+
+            item.detail = `Custom assertion from ${this.getFileName(assertion.filePath)}`;
+            item.documentation = new vscode.MarkdownString(
+                this.formatStepDocs(assertion)
+            );
+
+            // Create snippet with tabstops for placeholders
+            item.insertText = new vscode.SnippetString(
+                this.patternToSnippet(assertion.pattern)
+            );
+
+            items.push(item);
+        }
+
+        return items;
+    }
+
+    /**
+     * Convert step pattern to VS Code snippet with tabstops
+     */
+    private patternToSnippet(pattern: string): string {
+        let snippet = pattern;
+        let tabIndex = 1;
+
+        // Replace placeholders with snippet tabstops
+        snippet = snippet.replace(/\{string\}/g, () => `"\${${tabIndex++}:text}"`);
+        snippet = snippet.replace(/\{int\}/g, () => `\${${tabIndex++}:0}`);
+        snippet = snippet.replace(/\{word\}/g, () => `\${${tabIndex++}:word}`);
+        snippet = snippet.replace(/\{float\}/g, () => `\${${tabIndex++}:0.0}`);
+        snippet = snippet.replace(/\{any\}/g, () => `\${${tabIndex++}:value}`);
+
+        return snippet;
+    }
+
+    /**
+     * Format step documentation for hover
+     */
+    private formatStepDocs(step: StepDefinition): string {
+        let docs = `**Pattern:** \`${step.pattern}\`\n\n`;
+        
+        if (step.description) {
+            docs += `${step.description}\n\n`;
+        }
+
+        if (step.parameters.length > 0) {
+            docs += '**Parameters:**\n';
+            for (const param of step.parameters) {
+                docs += `- \`${param.name}\`: ${param.type}\n`;
+            }
+            docs += '\n';
+        }
+
+        docs += `**Method:** \`${step.methodName}\`\n`;
+        docs += `**Source:** ${this.getFileName(step.filePath)}:${step.lineNumber + 1}`;
+
+        return docs;
+    }
+
+    /**
+     * Get filename from path
+     */
+    private getFileName(filePath: string): string {
+        const parts = filePath.split(/[/\\]/);
+        return parts[parts.length - 1];
     }
 }
