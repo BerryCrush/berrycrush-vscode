@@ -14,6 +14,12 @@ let openApiProvider: OpenApiProvider;
 let fragmentProvider: FragmentProvider;
 let outputChannel: vscode.OutputChannel;
 
+// Document selector for both scenario and fragment languages
+const BERRYCRUSH_SELECTOR: vscode.DocumentSelector = [
+    { language: 'berrycrush-scenario' },
+    { language: 'berrycrush-fragment' }
+];
+
 export function activate(context: vscode.ExtensionContext) {
     // Create output channel for logging (only shown when explicitly opened)
     outputChannel = vscode.window.createOutputChannel('BerryCrush');
@@ -27,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
     const completionProvider = new ScenarioCompletionProvider(openApiProvider, fragmentProvider);
     context.subscriptions.push(
         vscode.languages.registerCompletionItemProvider(
-            'berrycrush',
+            BERRYCRUSH_SELECTOR,
             completionProvider,
             '^', // Trigger on ^operationId
             '@', // Trigger on @tag
@@ -40,38 +46,38 @@ export function activate(context: vscode.ExtensionContext) {
     // Register definition provider (Go to Definition / Ctrl+Click)
     const definitionProvider = new ScenarioDefinitionProvider(openApiProvider, fragmentProvider);
     context.subscriptions.push(
-        vscode.languages.registerDefinitionProvider('berrycrush', definitionProvider)
+        vscode.languages.registerDefinitionProvider(BERRYCRUSH_SELECTOR, definitionProvider)
     );
 
     // Register document link provider (clickable links with underline)
     const documentLinkProvider = new ScenarioDocumentLinkProvider(openApiProvider, fragmentProvider);
     context.subscriptions.push(
-        vscode.languages.registerDocumentLinkProvider('berrycrush', documentLinkProvider)
+        vscode.languages.registerDocumentLinkProvider(BERRYCRUSH_SELECTOR, documentLinkProvider)
     );
 
     // Register hover provider
     const hoverProvider = new ScenarioHoverProvider(openApiProvider, fragmentProvider);
     context.subscriptions.push(
-        vscode.languages.registerHoverProvider('berrycrush', hoverProvider)
+        vscode.languages.registerHoverProvider(BERRYCRUSH_SELECTOR, hoverProvider)
     );
 
     // Register reference provider (Find All References / Shift+F12)
     const referenceProvider = new ScenarioReferenceProvider(fragmentProvider);
     context.subscriptions.push(
-        vscode.languages.registerReferenceProvider('berrycrush', referenceProvider)
+        vscode.languages.registerReferenceProvider(BERRYCRUSH_SELECTOR, referenceProvider)
     );
 
     // Register formatting providers
     const formattingProvider = new ScenarioFormattingProvider();
     context.subscriptions.push(
-        vscode.languages.registerDocumentFormattingEditProvider('berrycrush', formattingProvider)
+        vscode.languages.registerDocumentFormattingEditProvider(BERRYCRUSH_SELECTOR, formattingProvider)
     );
     context.subscriptions.push(
-        vscode.languages.registerDocumentRangeFormattingEditProvider('berrycrush', formattingProvider)
+        vscode.languages.registerDocumentRangeFormattingEditProvider(BERRYCRUSH_SELECTOR, formattingProvider)
     );
     context.subscriptions.push(
         vscode.languages.registerOnTypeFormattingEditProvider(
-            'berrycrush',
+            BERRYCRUSH_SELECTOR,
             formattingProvider,
             '\n' // Trigger on Enter
         )
@@ -80,13 +86,13 @@ export function activate(context: vscode.ExtensionContext) {
     // Register folding provider
     const foldingProvider = new ScenarioFoldingRangeProvider();
     context.subscriptions.push(
-        vscode.languages.registerFoldingRangeProvider('berrycrush', foldingProvider)
+        vscode.languages.registerFoldingRangeProvider(BERRYCRUSH_SELECTOR, foldingProvider)
     );
 
     // Register document symbol provider (Outline panel)
     const symbolProvider = new ScenarioDocumentSymbolProvider();
     context.subscriptions.push(
-        vscode.languages.registerDocumentSymbolProvider('berrycrush', symbolProvider)
+        vscode.languages.registerDocumentSymbolProvider(BERRYCRUSH_SELECTOR, symbolProvider)
     );
 
     // Watch for OpenAPI spec changes

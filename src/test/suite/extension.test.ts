@@ -29,7 +29,8 @@ suite('BerryCrush Extension Test Suite', () => {
         const langs = vscode.languages.getLanguages();
         // Languages are returned as a Thenable
         return langs.then(languageIds => {
-            assert.ok(languageIds.includes('berrycrush'), 'berrycrush language should be registered');
+            assert.ok(languageIds.includes('berrycrush-scenario'), 'berrycrush-scenario language should be registered');
+            assert.ok(languageIds.includes('berrycrush-fragment'), 'berrycrush-fragment language should be registered');
         });
     });
 });
@@ -176,7 +177,8 @@ suite('Syntax Highlighting Tests', () => {
         const contributes = ext?.packageJSON?.contributes;
         
         assert.ok(contributes?.grammars, 'Should contribute grammars');
-        assert.ok(contributes?.grammars.length > 0, 'Should have at least one grammar');
-        assert.strictEqual(contributes?.grammars[0].language, 'berrycrush');
+        assert.ok(contributes?.grammars.length >= 2, 'Should have at least two grammars (scenario and fragment)');
+        assert.strictEqual(contributes?.grammars[0].language, 'berrycrush-scenario');
+        assert.strictEqual(contributes?.grammars[1].language, 'berrycrush-fragment');
     });
 });

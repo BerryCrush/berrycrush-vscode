@@ -31,30 +31,46 @@
   "contributes": {
     "languages": [
       {
-        "id": "berrycrush",
-        "aliases": ["BerryCrush", "berrycrush"],
-        "extensions": [".scenario", ".fragment"],
-        "configuration": "./language-configuration.json"
+        "id": "berrycrush-scenario",
+        "aliases": ["BerryCrush Scenario"],
+        "extensions": [".scenario"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./resources/icons/scenario-icon.svg",
+          "dark": "./resources/icons/scenario-icon.svg"
+        }
+      },
+      {
+        "id": "berrycrush-fragment",
+        "aliases": ["BerryCrush Fragment"],
+        "extensions": [".fragment"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./resources/icons/fragment-icon.svg",
+          "dark": "./resources/icons/fragment-icon.svg"
+        }
       }
     ],
     "grammars": [
       {
-        "language": "berrycrush",
+        "language": "berrycrush-scenario",
+        "scopeName": "source.berrycrush",
+        "path": "./syntaxes/berrycrush.tmLanguage.json"
+      },
+      {
+        "language": "berrycrush-fragment",
         "scopeName": "source.berrycrush",
         "path": "./syntaxes/berrycrush.tmLanguage.json"
       }
     ],
     "snippets": [
       {
-        "language": "berrycrush",
+        "language": "berrycrush-scenario",
         "path": "./snippets/berrycrush.code-snippets"
-      }
-    ],
-    "iconThemes": [
+      },
       {
-        "id": "berrycrush-icons",
-        "label": "BerryCrush File Icons",
-        "path": "./resources/icons/icon-theme.json"
+        "language": "berrycrush-fragment",
+        "path": "./snippets/berrycrush.code-snippets"
       }
     ],
     "configuration": {
