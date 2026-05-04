@@ -58,16 +58,25 @@ scenario: Create and retrieve user
 ```berrycrush
 # Authentication fragment
 fragment: authenticate
-  parameters:
-    username: testuser
-    password: secret123
   given credentials are provided
     call ^login
-      | username | {{username}} |
-      | password | {{password}} |
+      body: {"username": "testuser", "password": "secret123"}
   then authentication succeeds
     assert status 200
     extract $.accessToken => token
+```
+
+### Parameterized Include
+
+```berrycrush
+scenario: Create specific user
+  given I create a user
+    include create_user
+      name: "John Doe"
+      email: "john@example.com"
+      age: 30
+  then the user exists
+    assert status 201
 ```
 
 ## Customizing Colors
