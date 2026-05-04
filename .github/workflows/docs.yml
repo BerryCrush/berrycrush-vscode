@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'vscode/doc/**'
+      - 'doc/**'
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN
@@ -37,7 +37,7 @@ jobs:
         run: pip install mkdocs mkdocs-material pymdown-extensions
 
       - name: Install BerryCrush lexer
-        working-directory: vscode/doc/_extensions
+        working-directory: doc/_extensions
         run: pip install -e .
 
       - name: Build with MkDocs
@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: vscode/_site
+          path: _site
 
   deploy:
     environment:

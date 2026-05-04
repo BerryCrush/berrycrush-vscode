@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: vscode/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -36,4 +36,4 @@ jobs:
       - name: Upload VSIX to Release
         uses: softprops/action-gh-release@v2
         with:
-          files: vscode/*.vsix
+          files: '*.vsix'
