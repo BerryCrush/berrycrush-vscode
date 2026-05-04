@@ -1,0 +1,44 @@
+site_name: BerryCrush VS Code Extension
+site_description: VS Code extension for BerryCrush BDD testing framework
+site_author: BerryCrush Team
+docs_dir: doc
+site_dir: _site
+
+theme:
+  name: material
+  palette:
+    primary: deep-purple
+    accent: purple
+  features:
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Getting Started: getting-started.md
+  - Features:
+      - Syntax Highlighting: features/syntax.md
+      - Navigation: features/navigation.md
+      - Auto-Completion: features/completion.md
+      - Snippets: features/snippets.md
+      - Formatting: features/formatting.md
+      - Code Folding: features/folding.md
+      - Document Outline: features/outline.md
+      - Document Links: features/links.md
+  - Configuration:
+      - Settings: configuration/settings.md
+  - Development:
+      - Setup: development/setup.md
+      - Architecture: development/architecture.md
+      - Contributing: development/contributing.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+  - pymdownx.superfences
