@@ -4,10 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-defaults:
-  run:
-    working-directory: vscode
-
 jobs:
   build:
     runs-on: ubuntu-latest

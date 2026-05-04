@@ -41,7 +41,6 @@ jobs:
         run: pip install -e .
 
       - name: Build with MkDocs
-        working-directory: vscode
         run: mkdocs build --site-dir _site
 
       - name: Upload artifact

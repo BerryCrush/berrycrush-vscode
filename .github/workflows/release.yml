@@ -8,9 +8,6 @@ jobs:
   release:
     if: startsWith(github.ref_name, 'vscode-v')
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: vscode
     permissions:
       contents: write
     steps:
