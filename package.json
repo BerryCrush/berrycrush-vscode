@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "publisher": "berrycrush",
   "license": "Apache-2.0",
-  "icon": "resources/berrycrush.svg",
+  "icon": "resources/berrycrush.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/BerryCrush/berrycrush-vscode"
