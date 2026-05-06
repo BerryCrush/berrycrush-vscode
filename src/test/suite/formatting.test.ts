@@ -56,7 +56,6 @@ suite('ScenarioFormattingProvider Tests', () => {
         test('scenario at root level - no indent', () => {
             const input = '  scenario: Test';
             const doc = createMockDocument(input);
-            const range = new vscode.Range(0, 0, 0, input.length);
             const edits = provider.provideDocumentFormattingEdits(
                 doc,
                 { tabSize: 2, insertSpaces: true },

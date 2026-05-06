@@ -147,7 +147,7 @@ export class StepProvider {
                 const match = pattern.exec(line);
                 
                 if (match) {
-                    let stepPattern: string | null = null;
+                    let stepPattern: string | null;
 
                     if (match[1]) {
                         // Direct match with pattern
@@ -216,7 +216,7 @@ export class StepProvider {
             
             // Kotlin: fun methodName(params)
             // Java: public void methodName(params) or void methodName(params)
-            let methodMatch: RegExpMatchArray | null = null;
+            let methodMatch: RegExpMatchArray | null;
             
             if (isKotlin) {
                 methodMatch = line.match(/fun\s+(\w+)\s*\(([^)]*)\)/);
@@ -248,7 +248,9 @@ export class StepProvider {
         
         for (const part of paramParts) {
             const trimmed = part.trim();
-            if (!trimmed) continue;
+            if (!trimmed) {
+                continue;
+            }
 
             // Skip StepContext and AssertionContext parameters
             if (trimmed.includes('StepContext') || trimmed.includes('AssertionContext')) {

@@ -57,20 +57,6 @@ suite('ScenarioDocumentSymbolProvider Tests', () => {
         };
     }
 
-    // Helper to find symbol by name
-    function findSymbolByName(symbols: vscode.DocumentSymbol[], name: string): vscode.DocumentSymbol | undefined {
-        for (const symbol of symbols) {
-            if (symbol.name.includes(name)) {
-                return symbol;
-            }
-            const found = findSymbolByName(symbol.children, name);
-            if (found) {
-                return found;
-            }
-        }
-        return undefined;
-    }
-
     suite('Feature Parsing', () => {
         test('parses simple feature', () => {
             const content = `feature: Pet Store API

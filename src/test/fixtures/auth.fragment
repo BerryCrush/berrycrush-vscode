@@ -1,0 +1,31 @@
+fragment: auth
+  given getting auth token
+    call ^login
+      body:
+        username: "test"
+        password: "test123"
+    extract $.token => authToken
+  and setting authorization header
+    header_Authorization: "Bearer {{authToken}}"
+
+fragment: setup-test-data
+  given clearing test data
+    call ^deleteAllPets
+  and creating test pets
+    call ^createPet
+      body:
+        name: "TestPet1"
+        status: "available"
+    extract $.id => testPetId1
+    call ^createPet
+      body:
+        name: "TestPet2"
+        status: "pending"
+    extract $.id => testPetId2
+
+fragment: verify-pet-exists
+  then pet exists in database
+    call ^getPetById
+      petId: {{petId}}
+    assert status 200
+    assert $.id equals {{petId}}

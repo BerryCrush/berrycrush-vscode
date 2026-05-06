@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { OpenApiProvider, OpenApiOperation } from './openapi-provider';
-import { FragmentProvider, Fragment } from './fragment-provider';
+import { FragmentProvider } from './fragment-provider';
 import { StepProvider, StepDefinition } from './step-provider';
 
 export class ScenarioHoverProvider implements vscode.HoverProvider {
@@ -13,9 +13,9 @@ export class ScenarioHoverProvider implements vscode.HoverProvider {
     provideHover(
         document: vscode.TextDocument,
         position: vscode.Position,
-        token: vscode.CancellationToken
+        _token: vscode.CancellationToken
     ): vscode.ProviderResult<vscode.Hover> {
-        const wordRange = document.getWordRangeAtPosition(position, /[\w\-\^]+/);
+        const wordRange = document.getWordRangeAtPosition(position, /[\w^-]+/);
         if (!wordRange) {
             return null;
         }

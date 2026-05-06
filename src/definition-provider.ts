@@ -13,7 +13,7 @@ export class ScenarioDefinitionProvider implements vscode.DefinitionProvider {
     provideDefinition(
         document: vscode.TextDocument,
         position: vscode.Position,
-        token: vscode.CancellationToken
+        _token: vscode.CancellationToken
     ): vscode.ProviderResult<vscode.Definition | vscode.LocationLink[]> {
         const lineText = document.lineAt(position).text;
         const charPos = position.character;
@@ -48,7 +48,7 @@ export class ScenarioDefinitionProvider implements vscode.DefinitionProvider {
         }
 
         // Try standard word range detection for fragments and variables
-        const wordRange = document.getWordRangeAtPosition(position, /[\w\-]+/);
+        const wordRange = document.getWordRangeAtPosition(position, /[\w-]+/);
         
         if (wordRange) {
             const word = document.getText(wordRange);

@@ -11,7 +11,7 @@
     "url": "https://github.com/BerryCrush/berrycrush-vscode"
   },
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.118.0"
   },
   "categories": [
     "Programming Languages",
@@ -32,8 +32,12 @@
     "languages": [
       {
         "id": "berrycrush-scenario",
-        "aliases": ["BerryCrush Scenario"],
-        "extensions": [".scenario"],
+        "aliases": [
+          "BerryCrush Scenario"
+        ],
+        "extensions": [
+          ".scenario"
+        ],
         "configuration": "./language-configuration.json",
         "icon": {
           "light": "./resources/icons/scenario-icon.svg",
@@ -42,8 +46,12 @@
       },
       {
         "id": "berrycrush-fragment",
-        "aliases": ["BerryCrush Fragment"],
-        "extensions": [".fragment"],
+        "aliases": [
+          "BerryCrush Fragment"
+        ],
+        "extensions": [
+          ".fragment"
+        ],
         "configuration": "./language-configuration.json",
         "icon": {
           "light": "./resources/icons/fragment-icon.svg",
@@ -133,20 +141,21 @@
     "package": "vsce package"
   },
   "devDependencies": {
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "18.x",
-    "@types/vscode": "^1.85.0",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
-    "eslint": "9.26.0",
-    "glob": "11.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "^5.3.3",
-    "@vscode/test-electron": "^2.3.8",
-    "@vscode/vsce": "^2.22.0"
+    "@eslint/js": "^10.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.6.0",
+    "@types/vscode": "^1.118.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.9.1",
+    "eslint": "^10.3.0",
+    "glob": "^13.0.6",
+    "globals": "^17.6.0",
+    "mocha": "^11.7.5",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "yaml": "^2.3.4"
+    "yaml": "^2.8.4"
   }
 }

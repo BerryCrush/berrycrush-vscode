@@ -12,10 +12,10 @@ export class ScenarioReferenceProvider implements vscode.ReferenceProvider {
         document: vscode.TextDocument,
         position: vscode.Position,
         context: vscode.ReferenceContext,
-        token: vscode.CancellationToken
+        _token: vscode.CancellationToken
     ): Promise<vscode.Location[] | null> {
         const lineText = document.lineAt(position).text;
-        const wordRange = document.getWordRangeAtPosition(position, /[\w\-]+/);
+        const wordRange = document.getWordRangeAtPosition(position, /[\w-]+/);
         
         if (!wordRange) {
             return null;
@@ -84,7 +84,7 @@ export class ScenarioReferenceProvider implements vscode.ReferenceProvider {
                         ));
                     }
                 }
-            } catch (error) {
+            } catch {
                 // Skip files that can't be read
             }
         }

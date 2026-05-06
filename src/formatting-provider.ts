@@ -38,8 +38,8 @@ export class ScenarioFormattingProvider implements
      */
     provideDocumentFormattingEdits(
         document: vscode.TextDocument,
-        options: vscode.FormattingOptions,
-        token: vscode.CancellationToken
+        _options: vscode.FormattingOptions,
+        _token: vscode.CancellationToken
     ): vscode.TextEdit[] {
         const range = new vscode.Range(
             document.positionAt(0),
@@ -54,8 +54,8 @@ export class ScenarioFormattingProvider implements
     provideDocumentRangeFormattingEdits(
         document: vscode.TextDocument,
         range: vscode.Range,
-        options: vscode.FormattingOptions,
-        token: vscode.CancellationToken
+        _options: vscode.FormattingOptions,
+        _token: vscode.CancellationToken
     ): vscode.TextEdit[] {
         // Expand range to full lines
         const fullRange = new vscode.Range(
@@ -72,8 +72,8 @@ export class ScenarioFormattingProvider implements
         document: vscode.TextDocument,
         position: vscode.Position,
         ch: string,
-        options: vscode.FormattingOptions,
-        token: vscode.CancellationToken
+        _options: vscode.FormattingOptions,
+        _token: vscode.CancellationToken
     ): vscode.TextEdit[] {
         if (ch !== '\n') {
             return [];
@@ -161,7 +161,7 @@ export class ScenarioFormattingProvider implements
     /**
      * Format an array of lines.
      */
-    private formatLines(lines: string[], startLineNumber: number): string[] {
+    private formatLines(lines: string[], _startLineNumber: number): string[] {
         const result: string[] = [];
         let context = createFormattingContext();
 

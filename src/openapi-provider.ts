@@ -114,7 +114,7 @@ export class OpenApiProvider {
                         console.log(`BerryCrush: Found OpenAPI spec: ${relativePath}`);
                     }
                 }
-            } catch (error) {
+            } catch {
                 // Skip files that can't be read
             }
         }

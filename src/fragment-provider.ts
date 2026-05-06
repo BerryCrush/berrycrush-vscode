@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as path from 'path';
 
 export interface Fragment {
     name: string;
@@ -28,7 +27,7 @@ export class FragmentProvider {
         await this.searchForFragments(workspaceFolder.uri.fsPath, fragmentsPath);
     }
 
-    private async searchForFragments(workspaceRoot: string, searchPath: string): Promise<void> {
+    private async searchForFragments(_workspaceRoot: string, _searchPath: string): Promise<void> {
         // Search for .fragment files (excluding build directories)
         const files = await vscode.workspace.findFiles(
             '**/*.fragment',
@@ -46,7 +45,6 @@ export class FragmentProvider {
             const lines = content.split('\n');
 
             let currentFragment: Fragment | null = null;
-            let fragmentStartLine = 0;
 
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i];
@@ -61,7 +59,6 @@ export class FragmentProvider {
                     }
 
                     const fragmentName = fragmentMatch[1].trim();
-                    fragmentStartLine = i;
                     currentFragment = {
                         name: fragmentName,
                         filePath,

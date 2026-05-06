@@ -89,7 +89,6 @@ export class ScenarioDocumentSymbolProvider implements vscode.DocumentSymbolProv
             // Scenario
             const scenarioMatch = trimmed.match(this.patterns.scenario);
             if (scenarioMatch) {
-                const leadingWhitespace = scenarioMatch[1];
                 const tags = scenarioMatch[2].trim();
                 const name = scenarioMatch[3];
                 const displayName = tags ? `${tags} scenario: ${name}` : `scenario: ${name}`;
@@ -114,7 +113,6 @@ export class ScenarioDocumentSymbolProvider implements vscode.DocumentSymbolProv
             // Outline
             const outlineMatch = trimmed.match(this.patterns.outline);
             if (outlineMatch) {
-                const leadingWhitespace = outlineMatch[1];
                 const tags = outlineMatch[2].trim();
                 const name = outlineMatch[3];
                 const displayName = tags ? `${tags} outline: ${name}` : `outline: ${name}`;
@@ -241,7 +239,7 @@ export class ScenarioDocumentSymbolProvider implements vscode.DocumentSymbolProv
         detail: string,
         kind: vscode.SymbolKind,
         line: vscode.TextLine,
-        document: vscode.TextDocument
+        _document: vscode.TextDocument
     ): vscode.DocumentSymbol {
         const range = line.range;
         const selectionRange = new vscode.Range(

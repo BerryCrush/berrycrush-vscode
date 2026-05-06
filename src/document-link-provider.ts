@@ -14,7 +14,7 @@ export class ScenarioDocumentLinkProvider implements vscode.DocumentLinkProvider
 
     provideDocumentLinks(
         document: vscode.TextDocument,
-        token: vscode.CancellationToken
+        _token: vscode.CancellationToken
     ): vscode.ProviderResult<vscode.DocumentLink[]> {
         const links: vscode.DocumentLink[] = [];
         const text = document.getText();

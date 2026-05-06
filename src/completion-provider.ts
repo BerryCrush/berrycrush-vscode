@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { OpenApiProvider, OpenApiOperation } from './openapi-provider';
-import { FragmentProvider, Fragment } from './fragment-provider';
+import { FragmentProvider } from './fragment-provider';
 import { StepProvider, StepDefinition } from './step-provider';
 
 export class ScenarioCompletionProvider implements vscode.CompletionItemProvider {
@@ -13,8 +13,8 @@ export class ScenarioCompletionProvider implements vscode.CompletionItemProvider
     provideCompletionItems(
         document: vscode.TextDocument,
         position: vscode.Position,
-        token: vscode.CancellationToken,
-        context: vscode.CompletionContext
+        _token: vscode.CancellationToken,
+        _context: vscode.CompletionContext
     ): vscode.CompletionItem[] | vscode.CompletionList {
         const lineText = document.lineAt(position).text;
         const linePrefix = lineText.substring(0, position.character);
@@ -56,7 +56,7 @@ export class ScenarioCompletionProvider implements vscode.CompletionItemProvider
         }
 
         // Assert operator completions
-        if (linePrefix.match(/assert\s+\$[\w\.\[\]]+\s+$/)) {
+        if (linePrefix.match(/assert\s+\$[\w.[\]]+\s+$/)) {
             return this.getAssertOperatorCompletions();
         }
 
@@ -141,13 +141,13 @@ export class ScenarioCompletionProvider implements vscode.CompletionItemProvider
 
     private getVariableCompletions(
         document: vscode.TextDocument,
-        position: vscode.Position
+        _position: vscode.Position
     ): vscode.CompletionItem[] {
         const items: vscode.CompletionItem[] = [];
         const text = document.getText();
         
         // Find all extracted variables in the document
-        const extractMatches = text.matchAll(/extract\s+\$[\w\.\[\]]+\s+=>\s+(\w+)/g);
+        const extractMatches = text.matchAll(/extract\s+\$[\w.[\]]+\s+=>\s+(\w+)/g);
         const variables = new Set<string>();
         
         for (const match of extractMatches) {
@@ -219,7 +219,7 @@ export class ScenarioCompletionProvider implements vscode.CompletionItemProvider
         return items;
     }
 
-    private getDirectiveCompletions(linePrefix: string): vscode.CompletionItem[] {
+    private getDirectiveCompletions(_linePrefix: string): vscode.CompletionItem[] {
         const items: vscode.CompletionItem[] = [];
 
         items.push(this.createDirectiveItem('call', 'Call an OpenAPI operation', 'call ^${1:operationId}'));

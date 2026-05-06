@@ -17,7 +17,7 @@ async function main() {
                 '--disable-extensions' // Disable other extensions to make tests faster
             ]
         });
-    } catch (err) {
+    } catch {
         console.error('Failed to run tests');
         process.exit(1);
     }

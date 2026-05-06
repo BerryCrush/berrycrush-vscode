@@ -41,6 +41,15 @@ Navigate directly to definitions with precise positioning:
 
 - **Variables** - Ctrl+Click (Cmd+Click on macOS) on `{{variable}}` to jump to the `extract` statement that defined it.
 
+### Document Links (Clickable Underlines)
+
+Operations and fragments appear as clickable, underlined text in the editor. Simply click on them to navigate:
+
+- **Operation IDs** - `^operationId` appears underlined; click to jump to the OpenAPI spec
+- **Fragments** - Fragment names after `include` appear underlined; click to jump to the fragment definition
+
+Document links provide visual cues without requiring modifier keys like Ctrl/Cmd.
+
 ### Find All References (Shift+F12)
 
 Find all usages of:
