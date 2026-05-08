@@ -12,3 +12,11 @@ vsc-extension-quickstart.md
 doc/
 mkdocs.yml
 eslint.config.js
+
+# Build artifacts and tools
+node_modules/**
+out/test/**
+esbuild.mjs
+
+# Package files
+*.vsix
