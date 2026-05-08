@@ -20,3 +20,4 @@ esbuild.mjs
 
 # Package files
 *.vsix
+*.zip

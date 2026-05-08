@@ -142,7 +142,8 @@
     "lint": "eslint src",
     "test": "node ./out/test/runTest.js",
     "check-types": "tsc --noEmit",
-    "package:bundle": "npm run check-types && node esbuild.mjs --production",
+    "clean": "rm -rf out",
+    "package:bundle": "npm run clean && npm run check-types && node esbuild.mjs --production",
     "package": "npm run package:bundle && vsce package"
   },
   "devDependencies": {
