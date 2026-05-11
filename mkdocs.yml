@@ -1,8 +1,12 @@
 site_name: BerryCrush VS Code Extension
 site_description: VS Code extension for BerryCrush BDD testing framework
 site_author: BerryCrush Team
+site_url: https://vscode.berrycrush.org/
 docs_dir: doc
 site_dir: _site
+
+extra:
+  homepage: https://berrycrush.org
 
 theme:
   name: material
@@ -13,6 +17,8 @@ theme:
     - navigation.sections
     - navigation.expand
     - toc.integrate
+  icon:
+    repo: fontawesome/solid/house
 
 nav:
   - Home: index.md
