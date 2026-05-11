@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'doc/**'
+      - 'mkdocs.yml'
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN
