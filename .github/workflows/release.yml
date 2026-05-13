@@ -1,23 +1,81 @@
 name: VS Code Extension Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+
+concurrency:
+  group: release
+  cancel-in-progress: false
 
 jobs:
   release:
-    if: startsWith(github.ref_name, 'vscode-v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
+      - name: Get version from tag or input
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            # Remove 'v' prefix from tag (refs/tags/v1.0.0 -> 1.0.0)
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+          
+      - name: Validate version format
+        run: |
+          if ! [[ "${{ steps.version.outputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Version must be in format X.Y.Z (e.g., 1.0.0)"
+            exit 1
+          fi
 
       - name: Build
         uses: ./.github/actions/build
+        
+      - name: Get VSIX filename
+        id: vsix
+        run: |
+          VSIX_FILE=$(ls *.vsix | head -1)
+          echo "filename=$VSIX_FILE" >> $GITHUB_OUTPUT
+          echo "VSIX file: $VSIX_FILE"
 
-      - name: Upload VSIX to Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: VS Code Extension v${{ steps.version.outputs.version }}
+          body: |
+            ## BerryCrush VS Code Extension v${{ steps.version.outputs.version }}
+            
+            ### Installation
+            
+            #### From VS Code Marketplace (recommended)
+            Search for "BerryCrush" in the VS Code Extensions view or visit the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=BerryCrush.berrycrush-vscode).
+            
+            #### Manual Installation
+            1. Download the `.vsix` file below
+            2. Open VS Code
+            3. Press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux)
+            4. Run "Extensions: Install from VSIX..."
+            5. Select the downloaded file
+            
+            ### What's New
+            See the [CHANGELOG](CHANGELOG.md) for details.
           files: '*.vsix'
+          draft: false
+          prerelease: false
